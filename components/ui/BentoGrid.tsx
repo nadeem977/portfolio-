@@ -1,7 +1,13 @@
+"use client";
+import { useState } from "react";
 import { Skills } from "@/data";
 import { cn } from "../../app/utils/cn";
 import { BackgroundGradientAnimation } from "./GradientBG";
 import { GlobeDemo } from "./GridGlobe";
+import animationData from "../../data/confetti.json"
+import Lottie from "react-lottie";
+import MagicButton from "./MagicButton";
+import { IoCopyOutline } from "react-icons/io5";
 
 export const BentoGrid = ({
   className,
@@ -29,6 +35,13 @@ export const BentoGridItem = ({
     description?: string | React.ReactNode; img?: string; imgClassName?: string; titleClassName?: string; spareImg?: string;
 
   }) => {
+
+  const [copyed, setCopyed] = useState(false)
+  const CopyEmail = ()=>{
+    navigator.clipboard.writeText("nadeemjaveid67@gmail.com")
+    setCopyed(true)
+  }
+
   return (
     <div
       className={cn(
@@ -41,7 +54,7 @@ export const BentoGridItem = ({
           "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
       }}>
 
-      <div className={`${id === 6 && 'flex justify-center h-full'}`}>
+      <div className={`${id === 6 && 'flex justify-center items-center text-center'} h-full`}>
         <div className="w-full h-full absolute">
           {img && <img src={img} alt="images" className={cn(imgClassName, 'object-cover object-center')} />}
         </div>
@@ -84,9 +97,29 @@ export const BentoGridItem = ({
               </div>
             </div>
           )}
-          {/* {id===6 && (
-
-          )} */}
+          {id === 6 && (
+            <div className="relative mt-5">
+              <div className="absolute -bottom-5 right-0">
+                <Lottie
+                  options={{
+                    loop: copyed,
+                    autoplay: copyed,
+                    animationData,
+                    rendereSetings: {
+                      preserveAspectRatio: "xMidMid slice"
+                    }
+                  }}
+                />
+              </div>
+              <MagicButton 
+               title={copyed?"Email copyed":"copy my email"}
+               icon={<IoCopyOutline />}
+               position="left"
+               otherClasses="!bg-[#161a31]"
+               handleClick={CopyEmail}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
